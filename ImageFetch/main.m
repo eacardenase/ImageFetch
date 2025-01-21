@@ -9,6 +9,10 @@
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
+        NSArray *desktops = NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES);
+        NSString *desktopPath = desktops[0];
+        NSString *imagePath = [NSString stringWithFormat:@"%@/image.png", desktopPath];
+        
         NSURL *url = [NSURL URLWithString:
                       @"https://pokemonletsgo.pokemon.com/assets/img/how-to-play/hero-img.png"];
         NSURLRequest *request = [NSURLRequest requestWithURL:url];
@@ -25,7 +29,7 @@ int main(int argc, const char * argv[]) {
         
         NSLog(@"The file is %lu bytes", (unsigned long)[data length]);
         
-        BOOL written = [data writeToFile:@"/tmp/google.png"
+        BOOL written = [data writeToFile:imagePath
                                  options:NSDataWritingAtomic
                                    error:&error];
         
@@ -37,7 +41,7 @@ int main(int argc, const char * argv[]) {
         
         NSLog(@"Success!");
         
-        NSData *readData = [NSData dataWithContentsOfFile:@"/tmp/google.png"];
+        NSData *readData = [NSData dataWithContentsOfFile:imagePath];
         NSLog(@"The file read from the disk has %lu bytes",
               (unsigned long)[readData length]);
     }
